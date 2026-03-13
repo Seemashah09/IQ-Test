@@ -1,0 +1,1020 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Check Your IQ Instantly Online. Free accurate IQ test with instant results. Measure your intelligence with our fun online IQ quiz.">
+  <meta name="keywords" content="how to check IQ, check my IQ, free IQ test, online IQ test, accurate IQ test, IQ checker, instant IQ test">
+  <title>IQMeter - Check Your IQ Instantly Online</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { font-family: 'Outfit', sans-serif; }
+
+  .mono { font-family: 'Space Mono', monospace; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes meter-fill {
+    from { width: 0%; }
+    to { width: var(--meter-width); }
+  }
+  @keyframes countUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+  .fade-in-up-d1 { animation: fadeInUp 0.6s ease-out 0.1s forwards; opacity: 0; }
+  .fade-in-up-d2 { animation: fadeInUp 0.6s ease-out 0.2s forwards; opacity: 0; }
+  .fade-in-up-d3 { animation: fadeInUp 0.6s ease-out 0.3s forwards; opacity: 0; }
+  .fade-in-up-d4 { animation: fadeInUp 0.6s ease-out 0.4s forwards; opacity: 0; }
+  .scale-in { animation: scaleIn 0.5s ease-out forwards; }
+  .float-anim { animation: float 3s ease-in-out infinite; }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    transition: width 0.3s ease;
+  }
+  .nav-link:hover::after { width: 100%; }
+
+  .question-option {
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .question-option:hover {
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+  }
+  .question-option.selected {
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+  }
+
+  .blog-card {
+    transition: all 0.3s ease;
+  }
+  .blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .meter-bar {
+    animation: meter-fill 1.5s ease-out forwards;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+  }
+
+  .progress-ring { transition: stroke-dashoffset 0.5s ease; }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #0a0a1a; }
+  ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 4px; }
+
+  .toast-msg {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: #22c55e; color: #fff; padding: 12px 24px; border-radius: 12px;
+    font-weight: 600; z-index: 9999; animation: fadeInUp 0.4s ease-out;
+  }
+
+  .mobile-menu-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px); z-index: 100;
+    display: none; flex-direction: column; align-items: center;
+    justify-content: center; gap: 24px;
+  }
+  .mobile-menu-overlay.active { display: flex; }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto" style="background: #060612; color: #e2e8f0;">
+  <div id="app-wrapper" class="w-full" style="min-height: 100%; background: #060612;">
+   <!-- NAVIGATION -->
+   <header class="fixed top-0 left-0 w-full z-50" style="background: rgba(6, 6, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05);">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+     <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-2">
+      <svg width="36" height="36" viewbox="0 0 36 36" fill="none">
+       <circle cx="18" cy="18" r="16" stroke="url(#logoGrad)" stroke-width="2.5" fill="none" /> <path d="M10 18 C10 12, 14 8, 18 8 C22 8, 26 12, 26 18" stroke="url(#logoGrad)" stroke-width="2" fill="none" stroke-linecap="round" /> <line x1="18" y1="18" x2="24" y2="12" stroke="#a855f7" stroke-width="2" stroke-linecap="round" /> <circle cx="18" cy="18" r="2.5" fill="#6366f1" /> <defs>
+        <lineargradient id="logoGrad" x1="0" y1="0" x2="36" y2="36">
+         <stop stop-color="#6366f1" />
+         <stop offset="1" stop-color="#a855f7" />
+        </lineargradient>
+       </defs>
+      </svg><span class="text-xl font-bold tracking-tight" style="color: #f1f5f9;">IQ<span class="gradient-text">Meter</span></span> </a>
+     <div class="hidden md:flex items-center gap-6">
+      <a href="#" onclick="navigateTo('home'); return false;" class="nav-link text-sm font-medium" style="color: #94a3b8;">Home</a> <a href="#" onclick="navigateTo('test'); return false;" class="nav-link text-sm font-medium" style="color: #94a3b8;">IQ Test</a> <a href="#" onclick="navigateTo('blog'); return false;" class="nav-link text-sm font-medium" style="color: #94a3b8;">Articles</a> <a href="#" onclick="navigateTo('about'); return false;" class="nav-link text-sm font-medium" style="color: #94a3b8;">About</a> <a href="#" onclick="navigateTo('contact'); return false;" class="nav-link text-sm font-medium" style="color: #94a3b8;">Contact</a> <button onclick="navigateTo('test')" class="btn-primary text-sm font-semibold px-5 py-2 rounded-full text-white">Start Test</button>
+     </div><button id="mobileMenuBtn" class="md:hidden p-2" style="color: #94a3b8;" onclick="toggleMobileMenu()"> <i data-lucide="menu" style="width:24px;height:24px;"></i> </button>
+    </nav>
+   </header><!-- Mobile Menu Overlay -->
+   <div id="mobileMenuOverlay" class="mobile-menu-overlay">
+    <button onclick="toggleMobileMenu()" class="absolute top-4 right-4 p-2" style="color:#94a3b8;"><i data-lucide="x" style="width:28px;height:28px;"></i></button> <a href="#" onclick="navigateTo('home'); toggleMobileMenu(); return false;" class="text-2xl font-semibold" style="color:#e2e8f0;">Home</a> <a href="#" onclick="navigateTo('test'); toggleMobileMenu(); return false;" class="text-2xl font-semibold" style="color:#e2e8f0;">IQ Test</a> <a href="#" onclick="navigateTo('blog'); toggleMobileMenu(); return false;" class="text-2xl font-semibold" style="color:#e2e8f0;">Articles</a> <a href="#" onclick="navigateTo('about'); toggleMobileMenu(); return false;" class="text-2xl font-semibold" style="color:#e2e8f0;">About</a> <a href="#" onclick="navigateTo('contact'); toggleMobileMenu(); return false;" class="text-2xl font-semibold" style="color:#e2e8f0;">Contact</a> <a href="#" onclick="navigateTo('privacy'); toggleMobileMenu(); return false;" class="text-2xl font-semibold" style="color:#e2e8f0;">Privacy</a>
+   </div><!-- ======================== HOME PAGE ======================== -->
+   <main id="page-home" class="w-full">
+    <!-- Hero Section -->
+    <section class="relative w-full pt-32 pb-20 px-4 sm:px-6 overflow-hidden" style="min-height: 90%;">
+     <!-- Background decorations -->
+     <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-20 left-10 w-72 h-72 rounded-full opacity-20" style="background: radial-gradient(circle, #6366f1 0%, transparent 70%); filter: blur(60px);"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 rounded-full opacity-15" style="background: radial-gradient(circle, #a855f7 0%, transparent 70%); filter: blur(80px);"></div>
+      <div class="absolute top-40 right-1/4 w-48 h-48 rounded-full opacity-10" style="background: radial-gradient(circle, #ec4899 0%, transparent 70%); filter: blur(40px);"></div>
+     </div>
+     <div class="relative max-w-5xl mx-auto text-center">
+      <div class="fade-in-up mb-4">
+       <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mono" style="background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3);"> <span class="w-2 h-2 rounded-full" style="background: #22c55e;"></span> FREE &amp; INSTANT RESULTS </span>
+      </div>
+      <h1 id="heroHeadline" class="fade-in-up-d1 text-4xl sm:text-5xl md:text-7xl font-900 leading-tight mb-6" style="color: #f1f5f9;">Check Your <span class="gradient-text">IQ</span> Instantly</h1>
+      <p id="heroTagline" class="fade-in-up-d2 text-lg sm:text-xl max-w-2xl mx-auto mb-10" style="color: #94a3b8;">Check Your IQ Instantly Online. Take our scientifically-designed test with pattern recognition, logic puzzles, and numerical reasoning questions.</p>
+      <div class="fade-in-up-d3 flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+       <button onclick="navigateTo('test')" class="btn-primary px-8 py-4 rounded-full text-white font-bold text-lg flex items-center gap-2" style="animation: pulse-glow 2s infinite;"> <i data-lucide="play" style="width:20px;height:20px;"></i> Start IQ Test </button> <button onclick="navigateTo('blog')" class="px-8 py-4 rounded-full font-semibold text-base flex items-center gap-2" style="background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.1);"> <i data-lucide="book-open" style="width:18px;height:18px;"></i> Learn About IQ </button>
+      </div><!-- Question Type Preview Cards -->
+      <div class="fade-in-up-d4 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+       <div class="glass-card rounded-2xl p-5 text-center">
+        <div class="text-3xl mb-2">
+         🔢
+        </div>
+        <div class="text-sm font-semibold" style="color: #e2e8f0;">
+         Numbers
+        </div>
+        <div class="text-xs mt-1" style="color: #64748b;">
+         Sequences &amp; Math
+        </div>
+       </div>
+       <div class="glass-card rounded-2xl p-5 text-center">
+        <div class="text-3xl mb-2">
+         🧩
+        </div>
+        <div class="text-sm font-semibold" style="color: #e2e8f0;">
+         Patterns
+        </div>
+        <div class="text-xs mt-1" style="color: #64748b;">
+         Visual Recognition
+        </div>
+       </div>
+       <div class="glass-card rounded-2xl p-5 text-center">
+        <div class="text-3xl mb-2">
+         🔷
+        </div>
+        <div class="text-sm font-semibold" style="color: #e2e8f0;">
+         Shapes
+        </div>
+        <div class="text-xs mt-1" style="color: #64748b;">
+         Spatial Reasoning
+        </div>
+       </div>
+       <div class="glass-card rounded-2xl p-5 text-center">
+        <div class="text-3xl mb-2">
+         🧠
+        </div>
+        <div class="text-sm font-semibold" style="color: #e2e8f0;">
+         Logic
+        </div>
+        <div class="text-xs mt-1" style="color: #64748b;">
+         Critical Thinking
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Features Section -->
+    <section class="w-full py-20 px-4 sm:px-6" style="background: rgba(255,255,255,0.01);">
+     <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-800 text-center mb-4" style="color: #f1f5f9;">Why Choose <span class="gradient-text">IQMeter</span>?</h2>
+      <p class="text-center mb-14 text-base" style="color: #64748b;">Trusted by thousands for accurate, fun intelligence testing</p>
+      <div class="grid md:grid-cols-3 gap-6">
+       <div class="glass-card rounded-2xl p-8 text-center">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5" style="background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(99,102,241,0.05));">
+         <i data-lucide="zap" style="width:28px;height:28px;color:#6366f1;"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color: #f1f5f9;">Instant Results</h3>
+        <p class="text-sm" style="color: #64748b;">Get your IQ score immediately after completing the test with detailed explanations.</p>
+       </div>
+       <div class="glass-card rounded-2xl p-8 text-center">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5" style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(168,85,247,0.05));">
+         <i data-lucide="target" style="width:28px;height:28px;color:#a855f7;"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color: #f1f5f9;">Accurate Assessment</h3>
+        <p class="text-sm" style="color: #64748b;">Questions designed to measure multiple aspects of cognitive ability.</p>
+       </div>
+       <div class="glass-card rounded-2xl p-8 text-center">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5" style="background: linear-gradient(135deg, rgba(236,72,153,0.2), rgba(236,72,153,0.05));">
+         <i data-lucide="gift" style="width:28px;height:28px;color:#ec4899;"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color: #f1f5f9;">100% Free</h3>
+        <p class="text-sm" style="color: #64748b;">No hidden fees, no registration required. Take the test as many times as you want.</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- Score Ranges Preview -->
+    <section class="w-full py-20 px-4 sm:px-6">
+     <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-800 text-center mb-4" style="color: #f1f5f9;">IQ Score <span class="gradient-text">Ranges</span></h2>
+      <p class="text-center mb-12 text-base" style="color: #64748b;">Understand what your score means</p>
+      <div class="space-y-4">
+       <div class="glass-card rounded-xl p-5 flex items-center gap-4">
+        <div class="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(34,197,94,0.15);">
+         <span class="text-2xl font-bold mono" style="color:#22c55e;">90</span>
+        </div>
+        <div>
+         <div class="font-bold" style="color: #f1f5f9;">
+          90–109: Average
+         </div>
+         <div class="text-sm" style="color: #64748b;">
+          Most people fall in this range. Solid cognitive abilities.
+         </div>
+        </div>
+       </div>
+       <div class="glass-card rounded-xl p-5 flex items-center gap-4">
+        <div class="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(59,130,246,0.15);">
+         <span class="text-2xl font-bold mono" style="color:#3b82f6;">110</span>
+        </div>
+        <div>
+         <div class="font-bold" style="color: #f1f5f9;">
+          110–119: Above Average
+         </div>
+         <div class="text-sm" style="color: #64748b;">
+          Strong analytical and problem-solving skills.
+         </div>
+        </div>
+       </div>
+       <div class="glass-card rounded-xl p-5 flex items-center gap-4">
+        <div class="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(168,85,247,0.15);">
+         <span class="text-2xl font-bold mono" style="color:#a855f7;">120</span>
+        </div>
+        <div>
+         <div class="font-bold" style="color: #f1f5f9;">
+          120–129: High
+         </div>
+         <div class="text-sm" style="color: #64748b;">
+          Superior intelligence. Excellent at complex reasoning.
+         </div>
+        </div>
+       </div>
+       <div class="glass-card rounded-xl p-5 flex items-center gap-4">
+        <div class="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(236,72,153,0.15);">
+         <span class="text-2xl font-bold mono" style="color:#ec4899;">130+</span>
+        </div>
+        <div>
+         <div class="font-bold" style="color: #f1f5f9;">
+          130+: Very High / Gifted
+         </div>
+         <div class="text-sm" style="color: #64748b;">
+          Exceptional cognitive abilities. Top 2% of the population.
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- CTA Section -->
+    <section class="w-full py-20 px-4 sm:px-6">
+     <div class="max-w-3xl mx-auto text-center glass-card rounded-3xl p-10 sm:p-14 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-30" style="background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(168,85,247,0.1), rgba(236,72,153,0.1));"></div>
+      <div class="relative">
+       <h2 class="text-3xl sm:text-4xl font-800 mb-4" style="color: #f1f5f9;">Ready to Discover Your <span class="gradient-text">IQ Score</span>?</h2>
+       <p class="mb-8 text-base" style="color: #94a3b8;">It only takes 5–10 minutes. No registration required.</p><button onclick="navigateTo('test')" class="btn-primary px-10 py-4 rounded-full text-white font-bold text-lg inline-flex items-center gap-2"> <i data-lucide="brain" style="width:22px;height:22px;"></i> Take the Free IQ Test </button>
+      </div>
+     </div>
+    </section>
+   </main><!-- ======================== IQ TEST PAGE ======================== -->
+   <main id="page-test" class="w-full hidden">
+    <section class="pt-28 pb-20 px-4 sm:px-6">
+     <div class="max-w-3xl mx-auto">
+      <!-- Test Intro -->
+      <div id="testIntro" class="text-center">
+       <div class="float-anim mb-6">
+        <svg width="80" height="80" viewbox="0 0 80 80" class="mx-auto">
+         <circle cx="40" cy="40" r="36" stroke="url(#brainGrad)" stroke-width="3" fill="none" /> <text x="40" y="48" text-anchor="middle" font-size="36">
+          🧠
+         </text> <defs>
+          <lineargradient id="brainGrad" x1="0" y1="0" x2="80" y2="80">
+           <stop stop-color="#6366f1" />
+           <stop offset="1" stop-color="#a855f7" />
+          </lineargradient>
+         </defs>
+        </svg>
+       </div>
+       <h1 class="text-3xl sm:text-5xl font-900 mb-4" style="color: #f1f5f9;">Free Online <span class="gradient-text">IQ Test</span></h1>
+       <p class="text-base mb-3" style="color: #94a3b8;">15 multiple-choice questions covering pattern recognition, numerical reasoning, logical thinking, and spatial awareness.</p>
+       <div class="flex flex-wrap items-center justify-center gap-4 mb-8">
+        <span class="flex items-center gap-1.5 text-sm" style="color: #64748b;"><i data-lucide="clock" style="width:16px;height:16px;"></i> ~8 minutes</span> <span class="flex items-center gap-1.5 text-sm" style="color: #64748b;"><i data-lucide="list-checks" style="width:16px;height:16px;"></i> 15 questions</span> <span class="flex items-center gap-1.5 text-sm" style="color: #64748b;"><i data-lucide="shield-check" style="width:16px;height:16px;"></i> Instant results</span>
+       </div>
+       <div class="glass-card rounded-2xl p-6 text-left mb-8 max-w-md mx-auto">
+        <p class="text-sm font-semibold mb-3" style="color: #a5b4fc;">⏱️ Optional Timer</p>
+        <div class="flex items-center gap-4">
+         <label class="flex items-center gap-2 cursor-pointer"> <input type="checkbox" id="timerToggle" class="w-4 h-4 accent-indigo-500" checked> <span class="text-sm" style="color: #94a3b8;">Enable 10-minute timer</span> </label>
+        </div>
+       </div><button onclick="startTest()" class="btn-primary px-10 py-4 rounded-full text-white font-bold text-lg inline-flex items-center gap-2"> <i data-lucide="play" style="width:20px;height:20px;"></i> Begin Test </button>
+       <p class="text-xs mt-4" style="color: #475569;">This IQ test is for entertainment and educational purposes only.</p>
+      </div><!-- Test Questions -->
+      <div id="testQuestions" class="hidden">
+       <!-- Progress bar -->
+       <div class="flex items-center justify-between mb-6">
+        <div class="flex-1 mr-4">
+         <div class="w-full h-2 rounded-full" style="background: rgba(255,255,255,0.05);">
+          <div id="progressBar" class="h-full rounded-full transition-all duration-500" style="background: linear-gradient(90deg, #6366f1, #a855f7); width: 0%;"></div>
+         </div>
+        </div><span id="questionCounter" class="mono text-sm font-bold" style="color: #a5b4fc;">1/15</span>
+       </div><!-- Timer -->
+       <div id="timerDisplay" class="text-center mb-6 hidden">
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full mono text-sm font-bold" style="background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2);"> <i data-lucide="clock" style="width:16px;height:16px;"></i> <span id="timerText">10:00</span> </span>
+       </div><!-- Question Container -->
+       <div id="questionContainer" class="glass-card rounded-2xl p-6 sm:p-8 mb-6">
+        <div class="flex items-center gap-2 mb-4">
+         <span id="questionType" class="px-3 py-1 rounded-full text-xs font-semibold" style="background: rgba(99,102,241,0.15); color: #a5b4fc;">Logic</span>
+        </div>
+        <h2 id="questionText" class="text-xl sm:text-2xl font-bold mb-6" style="color: #f1f5f9;">Question text here</h2>
+        <div id="optionsContainer" class="space-y-3"></div>
+       </div>
+       <div class="flex items-center justify-between">
+        <button id="prevBtn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 disabled:opacity-30" style="background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.1);" disabled> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Previous </button> <button id="nextBtn" onclick="nextQuestion()" class="btn-primary px-5 py-2.5 rounded-full text-sm font-semibold text-white flex items-center gap-2"> Next <i data-lucide="arrow-right" style="width:16px;height:16px;"></i> </button> <button id="submitBtn" onclick="submitTest()" class="btn-primary px-6 py-2.5 rounded-full text-sm font-semibold text-white flex items-center gap-2 hidden"> <i data-lucide="check-circle" style="width:16px;height:16px;"></i> Submit Test </button>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main><!-- ======================== RESULTS PAGE ======================== -->
+   <main id="page-results" class="w-full hidden">
+    <section class="pt-28 pb-20 px-4 sm:px-6">
+     <div class="max-w-2xl mx-auto text-center">
+      <div class="scale-in mb-8">
+       <div class="relative inline-block">
+        <svg width="200" height="200" viewbox="0 0 200 200" class="mx-auto">
+         <circle cx="100" cy="100" r="90" stroke="rgba(255,255,255,0.05)" stroke-width="12" fill="none" /> <circle id="scoreRing" cx="100" cy="100" r="90" stroke="url(#scoreGrad)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="565.48" stroke-dashoffset="565.48" transform="rotate(-90 100 100)" class="progress-ring" /> <defs>
+          <lineargradient id="scoreGrad" x1="0" y1="0" x2="200" y2="200">
+           <stop stop-color="#6366f1" />
+           <stop offset="1" stop-color="#ec4899" />
+          </lineargradient>
+         </defs>
+        </svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+         <span id="iqScoreDisplay" class="text-5xl font-900 mono gradient-text">0</span> <span class="text-xs font-semibold" style="color: #64748b;">IQ SCORE</span>
+        </div>
+       </div>
+      </div>
+      <h2 id="scoreCategory" class="text-2xl sm:text-3xl font-800 mb-2" style="color: #f1f5f9;">Calculating...</h2>
+      <p id="scoreDescription" class="text-base mb-8" style="color: #94a3b8;">Your detailed result will appear here.</p>
+      <div id="scoreDetails" class="glass-card rounded-2xl p-6 text-left mb-8">
+       <h3 class="font-bold mb-4" style="color: #f1f5f9;">Score Breakdown</h3>
+       <div class="space-y-3">
+        <div class="flex justify-between items-center">
+         <span class="text-sm" style="color: #94a3b8;">Correct Answers</span> <span id="correctCount" class="mono font-bold" style="color: #22c55e;">0/15</span>
+        </div>
+        <div class="flex justify-between items-center">
+         <span class="text-sm" style="color: #94a3b8;">Time Taken</span> <span id="timeTaken" class="mono font-bold" style="color: #a5b4fc;">—</span>
+        </div>
+        <div class="flex justify-between items-center">
+         <span class="text-sm" style="color: #94a3b8;">Percentile</span> <span id="percentile" class="mono font-bold" style="color: #f59e0b;">—</span>
+        </div>
+       </div>
+      </div><!-- Score Range Legend -->
+      <div class="glass-card rounded-2xl p-6 text-left mb-8">
+       <h3 class="font-bold mb-4" style="color: #f1f5f9;">Where You Stand</h3>
+       <div id="scoreBars" class="space-y-3"></div>
+      </div>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+       <button onclick="navigateTo('test'); resetTest();" class="btn-primary px-8 py-3 rounded-full text-white font-semibold flex items-center gap-2"> <i data-lucide="refresh-cw" style="width:18px;height:18px;"></i> Retake Test </button> <button onclick="shareResult()" class="px-8 py-3 rounded-full font-semibold flex items-center gap-2" style="background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.1);"> <i data-lucide="share-2" style="width:18px;height:18px;"></i> Share Result </button>
+      </div>
+     </div>
+    </section>
+   </main><!-- ======================== BLOG PAGE ======================== -->
+   <main id="page-blog" class="w-full hidden">
+    <section class="pt-28 pb-20 px-4 sm:px-6">
+     <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+       <h1 class="text-3xl sm:text-5xl font-900 mb-4" style="color: #f1f5f9;">IQ <span class="gradient-text">Knowledge Hub</span></h1>
+       <p class="text-base" style="color: #94a3b8;">Expert articles about intelligence, IQ testing, and cognitive science</p>
+      </div><!-- Search -->
+      <div class="max-w-md mx-auto mb-10">
+       <div class="flex items-center gap-2 px-4 py-3 rounded-xl" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);">
+        <i data-lucide="search" style="width:18px;height:18px;color:#64748b;"></i> <input id="blogSearch" type="text" placeholder="Search articles..." class="bg-transparent border-none outline-none flex-1 text-sm" style="color: #e2e8f0;" oninput="filterArticles(this.value)">
+       </div>
+      </div>
+      <div id="blogGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+     </div>
+    </section>
+   </main><!-- ======================== ARTICLE VIEW ======================== -->
+   <main id="page-article" class="w-full hidden">
+    <section class="pt-28 pb-20 px-4 sm:px-6">
+     <div class="max-w-3xl mx-auto">
+      <button onclick="navigateTo('blog')" class="flex items-center gap-2 text-sm font-semibold mb-8" style="color: #a5b4fc;"> <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Back to Articles </button>
+      <div id="articleContent"></div>
+     </div>
+    </section>
+   </main><!-- ======================== ABOUT PAGE ======================== -->
+   <main id="page-about" class="w-full hidden">
+    <section class="pt-28 pb-20 px-4 sm:px-6">
+     <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-14">
+       <h1 class="text-3xl sm:text-5xl font-900 mb-4" style="color: #f1f5f9;">About <span class="gradient-text">IQMeter</span></h1>
+       <p id="aboutMission" class="text-base" style="color: #94a3b8;">Helping people measure their intelligence easily</p>
+      </div>
+      <div class="glass-card rounded-2xl p-8 mb-8">
+       <h2 class="text-xl font-bold mb-4" style="color: #f1f5f9;">Our Mission</h2>
+       <p class="mb-4 text-sm leading-relaxed" style="color: #94a3b8;">At IQMeter, we believe everyone deserves access to quality intelligence assessment tools. Our mission is to make IQ testing accessible, educational, and fun for people around the world.</p>
+       <p class="text-sm leading-relaxed" style="color: #94a3b8;">We've designed our tests using established principles of cognitive assessment, covering pattern recognition, logical reasoning, numerical ability, and spatial awareness — the key components measured by professional IQ tests.</p>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-6 mb-8">
+       <div class="glass-card rounded-2xl p-6 text-center">
+        <div class="text-3xl mb-3">
+         🎯
+        </div>
+        <div class="text-2xl font-bold mono gradient-text mb-1">
+         15
+        </div>
+        <div class="text-xs" style="color: #64748b;">
+         Expert Questions
+        </div>
+       </div>
+       <div class="glass-card rounded-2xl p-6 text-center">
+        <div class="text-3xl mb-3">
+         ⚡
+        </div>
+        <div class="text-2xl font-bold mono gradient-text mb-1">
+         Instant
+        </div>
+        <div class="text-xs" style="color: #64748b;">
+         Results &amp; Analysis
+        </div>
+       </div>
+       <div class="glass-card rounded-2xl p-6 text-center">
+        <div class="text-3xl mb-3">
+         🌍
+        </div>
+        <div class="text-2xl font-bold mono gradient-text mb-1">
+         Free
+        </div>
+        <div class="text-xs" style="color: #64748b;">
+         For Everyone
+        </div>
+       </div>
+      </div>
+      <div class="glass-card rounded-2xl p-8">
+       <h2 class="text-xl font-bold mb-4" style="color: #f1f5f9;">Credibility &amp; Transparency</h2>
+       <p class="text-sm leading-relaxed mb-4" style="color: #94a3b8;">Our IQ test is designed for entertainment and educational purposes. While we use question formats similar to established intelligence assessments, only a professionally administered test by a licensed psychologist can provide an official IQ score.</p>
+       <p class="text-sm leading-relaxed" style="color: #94a3b8;">We are committed to providing a fun, insightful experience that helps users understand different aspects of cognitive ability.</p>
+      </div>
+     </div>
+    </section>
+   </main><!-- ======================== CONTACT PAGE ======================== -->
+   <main id="page-contact" class="w-full hidden">
+    <section class="pt-28 pb-20 px-4 sm:px-6">
+     <div class="max-w-2xl mx-auto">
+      <div class="text-center mb-14">
+       <h1 class="text-3xl sm:text-5xl font-900 mb-4" style="color: #f1f5f9;">Get in <span class="gradient-text">Touch</span></h1>
+       <p class="text-base" style="color: #94a3b8;">Have questions or feedback? We'd love to hear from you.</p>
+      </div>
+      <div class="glass-card rounded-2xl p-8">
+       <form id="contactForm" onsubmit="handleContactSubmit(event)">
+        <div class="mb-5">
+         <label for="contactName" class="block text-sm font-semibold mb-2" style="color: #e2e8f0;">Name</label> <input type="text" id="contactName" required placeholder="Your name" class="w-full px-4 py-3 rounded-xl text-sm outline-none" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #e2e8f0;">
+        </div>
+        <div class="mb-5">
+         <label for="contactEmail" class="block text-sm font-semibold mb-2" style="color: #e2e8f0;">Email</label> <input type="email" id="contactEmail" required placeholder="your@email.com" class="w-full px-4 py-3 rounded-xl text-sm outline-none" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #e2e8f0;">
+        </div>
+        <div class="mb-5">
+         <label for="contactSubject" class="block text-sm font-semibold mb-2" style="color: #e2e8f0;">Subject</label> <input type="text" id="contactSubject" required placeholder="What's this about?" class="w-full px-4 py-3 rounded-xl text-sm outline-none" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #e2e8f0;">
+        </div>
+        <div class="mb-6">
+         <label for="contactMessage" class="block text-sm font-semibold mb-2" style="color: #e2e8f0;">Message</label> <textarea id="contactMessage" required rows="5" placeholder="Tell us what's on your mind..." class="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #e2e8f0;"></textarea>
+        </div><button type="submit" class="btn-primary w-full py-3 rounded-xl text-white font-bold flex items-center justify-center gap-2"> <i data-lucide="send" style="width:18px;height:18px;"></i> Send Message </button>
+        <div id="contactSuccess" class="hidden mt-4 text-center p-4 rounded-xl" style="background: rgba(34,197,94,0.1); color: #22c55e;">
+         <p class="font-semibold">✓ Message sent successfully!</p>
+         <p class="text-xs mt-1" style="color: #64748b;">We'll get back to you soon.</p>
+        </div>
+       </form>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4 mt-8">
+       <div class="glass-card rounded-2xl p-6 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(99,102,241,0.15);">
+         <i data-lucide="mail" style="width:20px;height:20px;color:#6366f1;"></i>
+        </div>
+        <div>
+         <div class="text-xs" style="color: #64748b;">
+          Email us at
+         </div>
+         <div class="text-sm font-semibold" style="color: #e2e8f0;">
+          hello@iqmeter.com
+         </div>
+        </div>
+       </div>
+       <div class="glass-card rounded-2xl p-6 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(168,85,247,0.15);">
+         <i data-lucide="twitter" style="width:20px;height:20px;color:#a855f7;"></i>
+        </div>
+        <div>
+         <div class="text-xs" style="color: #64748b;">
+          Follow us
+         </div>
+         <div class="text-sm font-semibold" style="color: #e2e8f0;">
+          @IQMeter
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main><!-- ======================== PRIVACY PAGE ======================== -->
+   <main id="page-privacy" class="w-full hidden">
+    <section class="pt-28 pb-20 px-4 sm:px-6">
+     <div class="max-w-3xl mx-auto">
+      <h1 class="text-3xl sm:text-5xl font-900 mb-8" style="color: #f1f5f9;">Privacy Policy &amp; <span class="gradient-text">Terms</span></h1>
+      <div class="glass-card rounded-2xl p-8 mb-6">
+       <h2 class="text-xl font-bold mb-4" style="color: #f1f5f9;">Disclaimer</h2>
+       <p class="text-sm leading-relaxed" style="color: #94a3b8;">This IQ test provided by IQMeter.com is for <strong style="color:#e2e8f0;">entertainment and educational purposes only</strong>. It is not a substitute for professional psychological evaluation. The scores provided are estimates based on your answers and should not be used for clinical, diagnostic, or professional purposes.</p>
+      </div>
+      <div class="glass-card rounded-2xl p-8 mb-6">
+       <h2 class="text-xl font-bold mb-4" style="color: #f1f5f9;">Privacy Policy</h2>
+       <p class="text-sm leading-relaxed mb-3" style="color: #94a3b8;">We respect your privacy. IQMeter.com does not collect, store, or share any personally identifiable information from test takers. Your test results are calculated locally in your browser and are not transmitted to any server.</p>
+       <p class="text-sm leading-relaxed" style="color: #94a3b8;">If you contact us through our contact form, we will only use your information to respond to your inquiry.</p>
+      </div>
+      <div class="glass-card rounded-2xl p-8 mb-6">
+       <h2 class="text-xl font-bold mb-4" style="color: #f1f5f9;">Terms of Use</h2>
+       <ul class="space-y-2 text-sm" style="color: #94a3b8;">
+        <li>• The IQ test is provided free of charge for personal use</li>
+        <li>• Results should not be used for hiring, academic, or clinical decisions</li>
+        <li>• You may retake the test as many times as you wish</li>
+        <li>• We reserve the right to modify or update the test questions at any time</li>
+        <li>• By using this site, you agree to these terms</li>
+       </ul>
+      </div>
+      <div class="glass-card rounded-2xl p-8">
+       <h2 class="text-xl font-bold mb-4" style="color: #f1f5f9;">Cookies</h2>
+       <p class="text-sm leading-relaxed" style="color: #94a3b8;">IQMeter.com may use basic analytics cookies to understand site usage and improve user experience. No personal data is tracked or sold to third parties.</p>
+      </div>
+     </div>
+    </section>
+   </main><!-- ======================== FOOTER ======================== -->
+   <footer class="w-full py-12 px-4 sm:px-6" style="background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05);">
+    <div class="max-w-6xl mx-auto">
+     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+      <div>
+       <div class="flex items-center gap-2 mb-4">
+        <svg width="28" height="28" viewbox="0 0 36 36" fill="none">
+         <circle cx="18" cy="18" r="16" stroke="url(#fLogoGrad)" stroke-width="2.5" fill="none" /> <path d="M10 18 C10 12, 14 8, 18 8 C22 8, 26 12, 26 18" stroke="url(#fLogoGrad)" stroke-width="2" fill="none" stroke-linecap="round" /> <line x1="18" y1="18" x2="24" y2="12" stroke="#a855f7" stroke-width="2" stroke-linecap="round" /> <circle cx="18" cy="18" r="2.5" fill="#6366f1" /> <defs>
+          <lineargradient id="fLogoGrad" x1="0" y1="0" x2="36" y2="36">
+           <stop stop-color="#6366f1" />
+           <stop offset="1" stop-color="#a855f7" />
+          </lineargradient>
+         </defs>
+        </svg><span class="text-lg font-bold" style="color: #f1f5f9;">IQ<span class="gradient-text">Meter</span></span>
+       </div>
+       <p class="text-xs" style="color: #64748b;">Check Your IQ Instantly Online. Free, fun, and educational intelligence testing.</p>
+      </div>
+      <div>
+       <h4 class="text-sm font-bold mb-3" style="color: #e2e8f0;">Quick Links</h4>
+       <div class="space-y-2">
+        <a href="#" onclick="navigateTo('home'); return false;" class="block text-xs" style="color: #64748b;">Home</a> <a href="#" onclick="navigateTo('test'); return false;" class="block text-xs" style="color: #64748b;">IQ Test</a> <a href="#" onclick="navigateTo('blog'); return false;" class="block text-xs" style="color: #64748b;">Articles</a>
+       </div>
+      </div>
+      <div>
+       <h4 class="text-sm font-bold mb-3" style="color: #e2e8f0;">Company</h4>
+       <div class="space-y-2">
+        <a href="#" onclick="navigateTo('about'); return false;" class="block text-xs" style="color: #64748b;">About Us</a> <a href="#" onclick="navigateTo('contact'); return false;" class="block text-xs" style="color: #64748b;">Contact</a> <a href="#" onclick="navigateTo('privacy'); return false;" class="block text-xs" style="color: #64748b;">Privacy Policy</a>
+       </div>
+      </div>
+      <div>
+       <h4 class="text-sm font-bold mb-3" style="color: #e2e8f0;">Popular Articles</h4>
+       <div class="space-y-2">
+        <a href="#" onclick="viewArticle(0); return false;" class="block text-xs" style="color: #64748b;">How to Check Your IQ</a> <a href="#" onclick="viewArticle(3); return false;" class="block text-xs" style="color: #64748b;">What Is a Normal IQ?</a> <a href="#" onclick="viewArticle(14); return false;" class="block text-xs" style="color: #64748b;">Increase Your IQ</a>
+       </div>
+      </div>
+     </div>
+     <div class="pt-6 text-center text-xs" style="color: #475569; border-top: 1px solid rgba(255,255,255,0.05);">
+      © 2026 IQMeter.com — All rights reserved. For entertainment and educational purposes only.
+     </div>
+    </div>
+   </footer>
+  </div><!-- /app-wrapper -->
+  <script>
+// ========== DEFAULT CONFIG ==========
+const defaultConfig = {
+  background_color: '#060612',
+  surface_color: '#0f0f23',
+  text_color: '#e2e8f0',
+  primary_action_color: '#6366f1',
+  secondary_action_color: '#a855f7',
+  font_family: 'Outfit',
+  font_size: 16,
+  site_tagline: 'Check Your IQ Instantly Online',
+  hero_headline: 'Check Your IQ Instantly',
+  about_mission: 'Helping people measure their intelligence easily'
+};
+
+// ========== ELEMENT SDK INIT ==========
+if (window.elementSdk) {
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+      const bg = config.background_color || defaultConfig.background_color;
+      const surface = config.surface_color || defaultConfig.surface_color;
+      const text = config.text_color || defaultConfig.text_color;
+      const primary = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondary = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const font = config.font_family || defaultConfig.font_family;
+      const size = config.font_size || defaultConfig.font_size;
+
+      document.body.style.fontFamily = `${font}, Outfit, sans-serif`;
+      document.body.style.background = bg;
+      document.getElementById('app-wrapper').style.background = bg;
+
+      // Update text elements
+      const headline = document.getElementById('heroHeadline');
+      if (headline) headline.innerHTML = `${config.hero_headline || defaultConfig.hero_headline} <span class="gradient-text">IQ</span>`;
+
+      const tagline = document.getElementById('heroTagline');
+      if (tagline) tagline.textContent = config.site_tagline || defaultConfig.site_tagline;
+
+      const mission = document.getElementById('aboutMission');
+      if (mission) mission.textContent = config.about_mission || defaultConfig.about_mission;
+
+      // Font sizing
+      document.body.style.fontSize = `${size}px`;
+    },
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+        { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+        { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+        { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
+        { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } }
+      ],
+      borderables: [],
+      fontEditable: {
+        get: () => config.font_family || defaultConfig.font_family,
+        set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+      },
+      fontSizeable: {
+        get: () => config.font_size || defaultConfig.font_size,
+        set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+      }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['site_tagline', config.site_tagline || defaultConfig.site_tagline],
+      ['hero_headline', config.hero_headline || defaultConfig.hero_headline],
+      ['about_mission', config.about_mission || defaultConfig.about_mission]
+    ])
+  });
+}
+
+// ========== NAVIGATION ==========
+function navigateTo(page) {
+  document.querySelectorAll('main').forEach(m => m.classList.add('hidden'));
+  const target = document.getElementById('page-' + page);
+  if (target) {
+    target.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  if (page === 'blog') renderBlogGrid();
+}
+
+function toggleMobileMenu() {
+  document.getElementById('mobileMenuOverlay').classList.toggle('active');
+}
+
+// ========== IQ TEST DATA ==========
+const questions = [
+  { type: 'Number Sequence', q: 'What comes next: 2, 6, 18, 54, ?', opts: ['108', '162', '148', '128'], ans: 1 },
+  { type: 'Pattern Logic', q: 'If all Bloops are Razzies and all Razzies are Lazzies, then all Bloops are definitely Lazzies.', opts: ['True', 'False', 'Cannot determine', 'Sometimes'], ans: 0 },
+  { type: 'Number Sequence', q: 'What comes next: 1, 1, 2, 3, 5, 8, ?', opts: ['11', '12', '13', '15'], ans: 2 },
+  { type: 'Spatial Reasoning', q: 'If you fold a square piece of paper in half diagonally, what shape do you get?', opts: ['Rectangle', 'Triangle', 'Pentagon', 'Rhombus'], ans: 1 },
+  { type: 'Logic', q: 'A clock shows 3:15. What is the angle between the hour and minute hands?', opts: ['0°', '7.5°', '15°', '22.5°'], ans: 1 },
+  { type: 'Pattern Logic', q: 'Which word does NOT belong: Apple, Banana, Carrot, Grape?', opts: ['Apple', 'Banana', 'Carrot', 'Grape'], ans: 2 },
+  { type: 'Number Sequence', q: 'What comes next: 3, 9, 27, 81, ?', opts: ['162', '216', '243', '324'], ans: 2 },
+  { type: 'Logic', q: 'If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?', opts: ['100 minutes', '5 minutes', '50 minutes', '10 minutes'], ans: 1 },
+  { type: 'Spatial Reasoning', q: 'How many faces does a cube have?', opts: ['4', '6', '8', '12'], ans: 1 },
+  { type: 'Pattern Logic', q: 'Complete: 🔵🔴🔵🔵🔴🔵🔵🔵🔴 — what comes next?', opts: ['🔵🔵🔵🔵', '🔴🔵🔵🔵', '🔵🔵🔵🔴', '🔴🔴🔵🔵'], ans: 0 },
+  { type: 'Number Sequence', q: 'What is 15% of 200?', opts: ['25', '30', '35', '40'], ans: 1 },
+  { type: 'Logic', q: 'Tom is taller than Jim. Jim is taller than Sam. Who is the shortest?', opts: ['Tom', 'Jim', 'Sam', 'Cannot tell'], ans: 2 },
+  { type: 'Spatial Reasoning', q: 'If you rotate the letter "N" 90° clockwise, what does it look like?', opts: ['Z', 'N', 'И', 'S'], ans: 0 },
+  { type: 'Pattern Logic', q: 'Which number is the odd one out: 2, 5, 11, 17, 23, 29?', opts: ['2', '5', '11', '29'], ans: 0 },
+  { type: 'Logic', q: 'A farmer has 17 sheep. All but 9 die. How many are left?', opts: ['8', '9', '17', '0'], ans: 1 }
+];
+
+let currentQuestion = 0;
+let answers = new Array(15).fill(-1);
+let timerInterval = null;
+let timeRemaining = 600;
+let testStartTime = null;
+
+function startTest() {
+  document.getElementById('testIntro').classList.add('hidden');
+  document.getElementById('testQuestions').classList.remove('hidden');
+  currentQuestion = 0;
+  answers = new Array(15).fill(-1);
+  testStartTime = Date.now();
+
+  if (document.getElementById('timerToggle').checked) {
+    timeRemaining = 600;
+    document.getElementById('timerDisplay').classList.remove('hidden');
+    timerInterval = setInterval(updateTimer, 1000);
+  }
+  renderQuestion();
+  lucide.createIcons();
+}
+
+function updateTimer() {
+  timeRemaining--;
+  const mins = Math.floor(timeRemaining / 60);
+  const secs = timeRemaining % 60;
+  document.getElementById('timerText').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  if (timeRemaining <= 0) {
+    clearInterval(timerInterval);
+    submitTest();
+  }
+}
+
+function renderQuestion() {
+  const q = questions[currentQuestion];
+  document.getElementById('questionType').textContent = q.type;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('progressBar').style.width = `${((currentQuestion + 1) / 15) * 100}%`;
+  document.getElementById('questionCounter').textContent = `${currentQuestion + 1}/15`;
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = `question-option rounded-xl p-4 flex items-center gap-3 ${answers[currentQuestion] === i ? 'selected' : ''}`;
+    div.style.cssText = 'background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);';
+    div.innerHTML = `
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-bold mono" style="background: ${answers[currentQuestion] === i ? 'rgba(99,102,241,0.3)' : 'rgba(255,255,255,0.05)'}; color: ${answers[currentQuestion] === i ? '#a5b4fc' : '#64748b'};">${String.fromCharCode(65 + i)}</div>
+      <span class="text-sm font-medium" style="color: #e2e8f0;">${opt}</span>
+    `;
+    div.onclick = () => selectAnswer(i);
+    container.appendChild(div);
+  });
+
+  document.getElementById('prevBtn').disabled = currentQuestion === 0;
+  document.getElementById('nextBtn').classList.toggle('hidden', currentQuestion === 14);
+  document.getElementById('submitBtn').classList.toggle('hidden', currentQuestion !== 14);
+}
+
+function selectAnswer(idx) {
+  answers[currentQuestion] = idx;
+  renderQuestion();
+}
+
+function nextQuestion() {
+  if (currentQuestion < 14) { currentQuestion++; renderQuestion(); }
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
+}
+
+function resetTest() {
+  if (timerInterval) clearInterval(timerInterval);
+  document.getElementById('testIntro').classList.remove('hidden');
+  document.getElementById('testQuestions').classList.add('hidden');
+  document.getElementById('timerDisplay').classList.add('hidden');
+  currentQuestion = 0;
+  answers = new Array(15).fill(-1);
+}
+
+function submitTest() {
+  if (timerInterval) clearInterval(timerInterval);
+  const timeTaken = Math.round((Date.now() - testStartTime) / 1000);
+
+  let correct = 0;
+  questions.forEach((q, i) => { if (answers[i] === q.ans) correct++; });
+
+  // IQ calculation: maps 0-15 correct to ~70-145 range
+  const baseIQ = 70;
+  const iqPerQuestion = 5;
+  const iq = Math.min(145, Math.max(70, baseIQ + (correct * iqPerQuestion)));
+
+  showResults(iq, correct, timeTaken);
+}
+
+function showResults(iq, correct, timeTaken) {
+  navigateTo('results');
+
+  // Animate score ring
+  const ring = document.getElementById('scoreRing');
+  const circumference = 565.48;
+  const progress = Math.min(iq / 160, 1);
+  setTimeout(() => {
+    ring.style.strokeDashoffset = circumference * (1 - progress);
+  }, 300);
+
+  // Animate score count
+  const scoreEl = document.getElementById('iqScoreDisplay');
+  let currentIQ = 0;
+  const step = Math.ceil(iq / 40);
+  const countInterval = setInterval(() => {
+    currentIQ += step;
+    if (currentIQ >= iq) { currentIQ = iq; clearInterval(countInterval); }
+    scoreEl.textContent = currentIQ;
+  }, 30);
+
+  // Category
+  let category, description, color;
+  if (iq >= 130) { category = 'Very High / Gifted 🌟'; description = 'Exceptional cognitive abilities! You scored in the top 2% of the population.'; color = '#ec4899'; }
+  else if (iq >= 120) { category = 'High Intelligence 🔥'; description = 'Superior intelligence with excellent complex reasoning abilities.'; color = '#a855f7'; }
+  else if (iq >= 110) { category = 'Above Average 💡'; description = 'Strong analytical and problem-solving skills above the general population.'; color = '#3b82f6'; }
+  else if (iq >= 90) { category = 'Average 👍'; description = 'Solid cognitive abilities in line with the general population. Great foundation!'; color = '#22c55e'; }
+  else { category = 'Below Average'; description = 'Keep practicing! Intelligence can be improved with the right exercises.'; color = '#f59e0b'; }
+
+  document.getElementById('scoreCategory').textContent = category;
+  document.getElementById('scoreDescription').textContent = description;
+  document.getElementById('correctCount').textContent = `${correct}/15`;
+
+  const mins = Math.floor(timeTaken / 60);
+  const secs = timeTaken % 60;
+  document.getElementById('timeTaken').textContent = `${mins}m ${secs}s`;
+
+  // Percentile estimate
+  let percentile;
+  if (iq >= 130) percentile = '98th+';
+  else if (iq >= 120) percentile = '91st';
+  else if (iq >= 110) percentile = '75th';
+  else if (iq >= 100) percentile = '50th';
+  else if (iq >= 90) percentile = '25th';
+  else percentile = '< 25th';
+  document.getElementById('percentile').textContent = percentile;
+
+  // Score bars
+  const ranges = [
+    { label: '130+: Very High', min: 130, max: 160, color: '#ec4899' },
+    { label: '120-129: High', min: 120, max: 129, color: '#a855f7' },
+    { label: '110-119: Above Avg', min: 110, max: 119, color: '#3b82f6' },
+    { label: '90-109: Average', min: 90, max: 109, color: '#22c55e' },
+    { label: '<90: Below Avg', min: 60, max: 89, color: '#f59e0b' }
+  ];
+  const barsContainer = document.getElementById('scoreBars');
+  barsContainer.innerHTML = '';
+  ranges.forEach(r => {
+    const isActive = iq >= r.min && iq <= r.max;
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-xs font-medium" style="color: ${isActive ? r.color : '#64748b'};">${r.label}</span>
+        ${isActive ? `<span class="text-xs font-bold mono" style="color: ${r.color};">← You (${iq})</span>` : ''}
+      </div>
+      <div class="w-full h-2 rounded-full" style="background: rgba(255,255,255,0.05);">
+        <div class="h-full rounded-full meter-bar" style="background: ${r.color}; opacity: ${isActive ? 1 : 0.3}; --meter-width: ${isActive ? '100%' : '60%'};"></div>
+      </div>
+    `;
+    barsContainer.appendChild(div);
+  });
+
+  lucide.createIcons();
+}
+
+function shareResult() {
+  const score = document.getElementById('iqScoreDisplay').textContent;
+  const text = `I scored ${score} on the IQMeter IQ Test! Check your IQ at IQMeter.com 🧠`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('Result copied to clipboard!');
+    });
+  }
+}
+
+function showToast(msg) {
+  const existing = document.querySelector('.toast-msg');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = 'toast-msg';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+// ========== BLOG DATA ==========
+const articles = [
+  { title: 'How to Check Your IQ Online', emoji: '🌐', tags: ['how to check IQ', 'online IQ test'], excerpt: 'Learn the easiest ways to check your IQ score from the comfort of your home using reliable online tools.', content: `<p>Checking your IQ online has never been easier. With modern web-based assessments, you can get a reliable estimate of your intelligence quotient in just minutes.</p><h3>What Makes a Good Online IQ Test?</h3><p>A quality online IQ test should include multiple question types: pattern recognition, numerical sequences, logical reasoning, and spatial awareness. These categories mirror what professional psychologists measure in standardized tests.</p><h3>Steps to Check Your IQ Online</h3><p><strong>1. Choose a reputable test</strong> — Look for tests that cover multiple cognitive domains, like IQMeter.</p><p><strong>2. Find a quiet environment</strong> — Minimize distractions for the most accurate results.</p><p><strong>3. Take your time</strong> — While some tests have timers, don't rush through questions.</p><p><strong>4. Review your results</strong> — Understand what your score means in context.</p><h3>Are Online IQ Tests Accurate?</h3><p>While no online test can replace a professional assessment, well-designed online IQ tests can provide a reasonable estimate within 10-15 points of your actual score. They're excellent for entertainment, self-discovery, and intellectual exercise.</p>` },
+  { title: 'Free IQ Test: Step by Step Guide', emoji: '📋', tags: ['free IQ test', 'IQ quiz online'], excerpt: 'A complete walkthrough of how to take a free IQ test and understand your results.', content: `<p>Taking a free IQ test is one of the most popular ways to gauge your cognitive abilities. Here's everything you need to know.</p><h3>Before You Begin</h3><p>Make sure you're well-rested, in a quiet environment, and have 10-15 minutes of uninterrupted time. Your mental state can significantly affect your performance.</p><h3>During the Test</h3><p>Read each question carefully. Most IQ tests use multiple-choice format with questions that gradually increase in difficulty. Don't spend too long on any single question — if you're stuck, make your best guess and move on.</p><h3>Understanding Your Score</h3><p>IQ scores follow a bell curve distribution. A score of 100 is exactly average, with most people scoring between 85 and 115. Scores above 130 are considered gifted, while scores above 145 are exceptionally rare.</p>` },
+  { title: 'How Accurate Are Online IQ Tests?', emoji: '🎯', tags: ['accurate IQ test', 'IQ test score'], excerpt: 'Exploring the science behind online IQ testing and how it compares to professional assessments.', content: `<p>The accuracy of online IQ tests is a topic of much debate. Let's break down what the science says.</p><h3>Reliability vs Validity</h3><p>Professional IQ tests like the WAIS-IV have both high reliability (consistent results) and high validity (actually measuring intelligence). Online tests generally have moderate reliability but varying validity.</p><h3>Factors Affecting Accuracy</h3><p>Several factors influence how accurate an online IQ test will be: the quality of questions, the number of questions, the scoring algorithm, and the test conditions. A well-designed online test with 15+ questions can provide estimates within 10-15 points of professional assessments.</p><h3>When to Seek Professional Testing</h3><p>If you need an official IQ score for academic placement, clinical evaluation, or professional purposes, always consult a licensed psychologist for standardized testing.</p>` },
+  { title: 'What Is a Normal IQ Score?', emoji: '📊', tags: ['what is my IQ', 'IQ test score'], excerpt: 'Understanding IQ score ranges and where most people fall on the intelligence spectrum.', content: `<p>IQ scores are designed to follow a normal distribution, also known as a bell curve, with the average set at 100.</p><h3>Score Breakdown</h3><p><strong>Below 70:</strong> Significantly below average (2.2% of population)</p><p><strong>70-84:</strong> Below average (13.6%)</p><p><strong>85-115:</strong> Average range (68.2%)</p><p><strong>116-130:</strong> Above average (13.6%)</p><p><strong>Above 130:</strong> Gifted/Very high (2.2%)</p><h3>What Influences IQ?</h3><p>Both genetics and environment play significant roles. Education, nutrition, mental stimulation, and socioeconomic factors all contribute to cognitive development.</p>` },
+  { title: 'IQ Test for Kids vs Adults', emoji: '👨‍👧', tags: ['IQ checker', 'IQ quiz online'], excerpt: 'Key differences between IQ tests designed for children and those made for adults.', content: `<p>IQ tests differ significantly between children and adults, reflecting different stages of cognitive development.</p><h3>Children's IQ Tests</h3><p>Tests like the WISC (Wechsler Intelligence Scale for Children) are designed for ages 6-16 and focus on developing cognitive abilities. They include subtests for vocabulary, similarities, block design, and coding.</p><h3>Adult IQ Tests</h3><p>The WAIS (Wechsler Adult Intelligence Scale) is the gold standard for adults 16+. It measures verbal comprehension, perceptual reasoning, working memory, and processing speed.</p>` },
+  { title: 'Top Brain Exercises to Improve IQ', emoji: '💪', tags: ['improve IQ', 'brain exercises'], excerpt: 'Science-backed mental exercises that can help sharpen your cognitive abilities.', content: `<p>While your baseline IQ is partly genetic, research shows you can improve your cognitive abilities with targeted practice.</p><h3>Proven Brain Exercises</h3><p><strong>1. N-back training</strong> — Working memory exercises that have shown IQ improvements in studies.</p><p><strong>2. Chess and strategy games</strong> — Develops planning, pattern recognition, and spatial reasoning.</p><p><strong>3. Learning a new language</strong> — Strengthens executive function and cognitive flexibility.</p><p><strong>4. Mathematical puzzles</strong> — Sudoku, logic puzzles, and number games build analytical skills.</p><p><strong>5. Physical exercise</strong> — Regular aerobic exercise increases BDNF, promoting brain cell growth.</p>` },
+  { title: 'History of IQ Tests', emoji: '📜', tags: ['IQ test history', 'intelligence testing'], excerpt: 'From Binet to modern assessments: the fascinating evolution of intelligence testing.', content: `<p>The history of IQ testing spans over a century of psychological research and social impact.</p><h3>The Beginning: Alfred Binet (1905)</h3><p>French psychologist Alfred Binet created the first practical intelligence test to identify students needing extra academic help in Paris schools.</p><h3>Stanford-Binet (1916)</h3><p>Lewis Terman at Stanford University adapted Binet's test for American use, introducing the concept of "Intelligence Quotient" — mental age divided by chronological age, multiplied by 100.</p><h3>Modern Era</h3><p>Today's tests like the WAIS-IV and WISC-V use deviation IQ scoring and measure multiple cognitive domains, providing a much more nuanced picture of intelligence.</p>` },
+  { title: 'Logical Reasoning Questions to Try', emoji: '🧩', tags: ['logic puzzles', 'IQ quiz online'], excerpt: 'Test your logical thinking with these challenging reasoning questions and detailed explanations.', content: `<p>Logical reasoning is a core component of IQ tests. Here are some practice questions to sharpen your skills.</p><h3>Practice Questions</h3><p><strong>Q1:</strong> If all roses are flowers and some flowers fade quickly, can we conclude that some roses fade quickly? <em>Answer: No — "some flowers" doesn't necessarily include roses.</em></p><p><strong>Q2:</strong> A bat and ball cost $1.10 total. The bat costs $1 more than the ball. How much does the ball cost? <em>Answer: $0.05 (not $0.10!) — If ball = $0.05, bat = $1.05, total = $1.10.</em></p><h3>Tips for Logical Reasoning</h3><p>Read premises carefully, avoid assumptions, and test each conclusion against all given information.</p>` },
+  { title: 'Pattern Recognition: Tips and Tricks', emoji: '🔍', tags: ['pattern recognition', 'IQ test'], excerpt: 'Master the art of pattern recognition with proven strategies used by high scorers.', content: `<p>Pattern recognition is one of the strongest predictors of general intelligence and a key component of most IQ tests.</p><h3>Common Pattern Types</h3><p><strong>Number sequences:</strong> Look for addition, multiplication, Fibonacci-like patterns, or alternating operations.</p><p><strong>Visual patterns:</strong> Focus on rotation, reflection, color changes, and element additions.</p><p><strong>Letter patterns:</strong> Consider alphabetical position, skipping letters, or word formation rules.</p><h3>Strategy Tips</h3><p>1. Start by identifying the relationship between consecutive elements. 2. Check if the pattern involves one operation or multiple alternating operations. 3. Verify your hypothesis with all given elements before choosing an answer.</p>` },
+  { title: 'How to Prepare for an IQ Test', emoji: '📚', tags: ['IQ test preparation', 'instant IQ test'], excerpt: 'Practical tips to perform your best on any IQ assessment.', content: `<p>While you can't "study" for an IQ test in the traditional sense, you can optimize your conditions for peak performance.</p><h3>Before the Test</h3><p>Get a full night's sleep (7-8 hours), eat a nutritious meal, stay hydrated, and avoid alcohol or caffeine extremes. Your brain performs best when your body is well-maintained.</p><h3>During the Test</h3><p>Read each question thoroughly, manage your time wisely, and don't get stuck on difficult questions. If you're unsure, eliminate obviously wrong answers and make your best guess.</p>` },
+  { title: 'Famous IQ Tests Around the World', emoji: '🌍', tags: ['IQ tests worldwide', 'intelligence assessment'], excerpt: 'A tour of the most recognized and scientifically validated IQ tests used globally.', content: `<p>Different cultures and countries have developed various approaches to measuring intelligence.</p><h3>Major IQ Tests</h3><p><strong>WAIS-IV (USA):</strong> The most widely used adult intelligence test worldwide.</p><p><strong>Raven's Progressive Matrices (UK):</strong> A culture-fair non-verbal test using pattern recognition.</p><p><strong>Cattell Culture Fair (International):</strong> Designed to minimize cultural and language bias.</p><p><strong>Mensa Admission Test:</strong> Used worldwide by the high-IQ society to identify the top 2% of the population.</p>` },
+  { title: 'What Does Your IQ Really Measure?', emoji: '🤔', tags: ['what is IQ', 'IQ measurement'], excerpt: 'Diving deep into what IQ actually tests and what it might miss about human intelligence.', content: `<p>IQ tests measure specific cognitive abilities, but intelligence is far more complex than a single number.</p><h3>What IQ Tests Measure</h3><p>Most IQ tests assess: verbal reasoning, mathematical ability, spatial awareness, processing speed, and working memory. These are well-validated predictors of academic and professional success.</p><h3>What IQ Doesn't Capture</h3><p>Creativity, emotional intelligence, practical problem-solving, musical ability, interpersonal skills, and many other forms of intelligence aren't measured by standard IQ tests. Howard Gardner's theory of multiple intelligences suggests there are at least 8 distinct types of intelligence.</p>` },
+  { title: 'Difference Between IQ and EQ', emoji: '❤️', tags: ['IQ vs EQ', 'emotional intelligence'], excerpt: 'Understanding the crucial differences between intellectual intelligence and emotional intelligence.', content: `<p>While IQ (Intelligence Quotient) measures cognitive abilities, EQ (Emotional Quotient) measures emotional intelligence — and both matter for success.</p><h3>IQ: Cognitive Intelligence</h3><p>IQ measures logical reasoning, pattern recognition, mathematical ability, and verbal comprehension. It's relatively stable throughout adult life and strongly predicts academic performance.</p><h3>EQ: Emotional Intelligence</h3><p>EQ encompasses self-awareness, self-regulation, motivation, empathy, and social skills. Unlike IQ, emotional intelligence can be significantly developed with practice and intentional effort.</p><h3>Which Matters More?</h3><p>Research suggests EQ may be even more important than IQ for career success, relationship satisfaction, and overall well-being. The ideal is developing both.</p>` },
+  { title: 'Fun IQ Challenges to Try with Friends', emoji: '🎮', tags: ['IQ challenges', 'brain games'], excerpt: 'Entertaining IQ puzzles and challenges perfect for game nights and friendly competition.', content: `<p>Turn brain training into a social activity with these fun IQ challenges you can try with friends.</p><h3>Group Challenges</h3><p><strong>Speed Round:</strong> Set a 30-second timer and see who can solve the most number sequences.</p><p><strong>Pattern Battle:</strong> Take turns creating patterns for others to solve.</p><p><strong>Logic Relay:</strong> Teams work together to solve increasingly difficult logic puzzles.</p><p><strong>IQ Quiz Show:</strong> Host a quiz night with categories like numbers, patterns, words, and spatial reasoning.</p>` },
+  { title: 'How to Increase Your IQ Naturally', emoji: '🌱', tags: ['increase IQ', 'improve intelligence'], excerpt: 'Evidence-based methods to naturally boost your cognitive abilities and IQ score.', content: `<p>Scientific research shows several natural methods can improve cognitive function and potentially raise IQ scores.</p><h3>Lifestyle Changes</h3><p><strong>Exercise regularly:</strong> 30+ minutes of aerobic exercise 3-5 times per week increases brain-derived neurotrophic factor (BDNF).</p><p><strong>Quality sleep:</strong> 7-9 hours allows the brain to consolidate memories and clear metabolic waste.</p><p><strong>Mediterranean diet:</strong> Rich in omega-3 fatty acids, antioxidants, and anti-inflammatory compounds.</p><h3>Mental Training</h3><p><strong>Learn continuously:</strong> New skills create neural pathways. Music, languages, and complex games are particularly effective.</p><p><strong>Practice mindfulness:</strong> Meditation improves attention, working memory, and cognitive flexibility.</p>` },
+  { title: 'IQ Test Mistakes You Should Avoid', emoji: '⚠️', tags: ['IQ test tips', 'test mistakes'], excerpt: 'Common pitfalls that lower your IQ test score and how to avoid them.', content: `<p>Many people score lower than their actual ability due to avoidable mistakes during IQ testing.</p><h3>Common Mistakes</h3><p><strong>1. Rushing through questions</strong> — Speed isn't always important. Read carefully.</p><p><strong>2. Overthinking simple questions</strong> — Sometimes the obvious answer is correct.</p><p><strong>3. Leaving questions blank</strong> — Always guess if unsure; there's usually no penalty.</p><p><strong>4. Testing while tired or stressed</strong> — Your cognitive ability drops significantly when fatigued.</p><p><strong>5. Not reading all options</strong> — The first plausible answer isn't always the best one.</p>` },
+  { title: 'Online vs Offline IQ Tests: Which Is Better?', emoji: '💻', tags: ['online IQ test', 'IQ comparison'], excerpt: 'Comparing the pros and cons of taking IQ tests online versus in a professional setting.', content: `<p>Both online and offline IQ tests have their place. Understanding the differences helps you choose the right option.</p><h3>Online IQ Tests</h3><p><strong>Pros:</strong> Free, convenient, instant results, can retake multiple times, great for practice.</p><p><strong>Cons:</strong> Less controlled environment, potential for distractions, not clinically validated.</p><h3>Professional (Offline) Tests</h3><p><strong>Pros:</strong> Clinically validated, controlled conditions, administered by trained professionals, legally recognized results.</p><p><strong>Cons:</strong> Expensive ($200-$2000+), requires scheduling, results take days/weeks.</p><h3>Our Recommendation</h3><p>Start with a quality online test like IQMeter for a fun, educational experience. If you need official results for clinical, academic, or professional purposes, follow up with a licensed psychologist.</p>` },
+  { title: 'Average IQ Scores by Country', emoji: '🗺️', tags: ['IQ by country', 'global IQ'], excerpt: 'Exploring how average IQ scores vary around the world and what factors contribute to differences.', content: `<p>IQ scores vary across countries, influenced by education systems, nutrition, healthcare, and socioeconomic factors.</p><h3>Important Context</h3><p>National IQ averages reflect environmental conditions (education quality, nutrition, healthcare access) more than inherent ability. Countries that invest in education and child welfare consistently see IQ scores rise over generations — this is known as the Flynn Effect.</p><h3>The Flynn Effect</h3><p>IQ scores have been rising globally by about 3 points per decade since the early 1900s. Better nutrition, education, and environmental conditions are the primary drivers.</p>` },
+  { title: 'Signs of High IQ in Adults', emoji: '✨', tags: ['high IQ signs', 'intelligence indicators'], excerpt: 'Surprising everyday signs that may indicate above-average intelligence.', content: `<p>High intelligence often manifests in unexpected ways. Here are research-backed signs of above-average IQ.</p><h3>Common Signs</h3><p><strong>Curiosity:</strong> Constantly asking "why" and seeking to understand how things work.</p><p><strong>Adaptability:</strong> Quickly adjusting to new situations and solving novel problems.</p><p><strong>Self-awareness:</strong> Understanding your own strengths, weaknesses, and biases.</p><p><strong>Open-mindedness:</strong> Willing to consider different viewpoints and change opinions with evidence.</p><p><strong>Humor:</strong> Appreciating and creating sophisticated, nuanced humor.</p><p><strong>Night owl tendencies:</strong> Research links higher IQ with preference for staying up late.</p>` },
+  { title: 'How to Interpret Your IQ Test Results', emoji: '📈', tags: ['IQ results', 'IQ interpretation'], excerpt: 'A comprehensive guide to understanding what your IQ test score really means.', content: `<p>Getting your IQ score is just the beginning. Understanding what it means is equally important.</p><h3>Score Ranges Explained</h3><p><strong>70-84:</strong> Below average. May benefit from targeted cognitive exercises.</p><p><strong>85-99:</strong> Low average. Perfectly capable of most academic and professional tasks.</p><p><strong>100-114:</strong> Average to high average. The majority of people fall here.</p><p><strong>115-129:</strong> Above average to superior. Strong cognitive abilities.</p><p><strong>130+:</strong> Very superior/gifted. Top 2% of the population.</p><h3>Beyond the Number</h3><p>Remember: IQ is just one measure of cognitive ability. Your creativity, emotional intelligence, motivation, and life experience all contribute to your overall capability and success.</p>` }
+];
+
+function renderBlogGrid(filter = '') {
+  const grid = document.getElementById('blogGrid');
+  grid.innerHTML = '';
+  const filtered = filter ? articles.filter(a => a.title.toLowerCase().includes(filter.toLowerCase()) || a.tags.some(t => t.toLowerCase().includes(filter.toLowerCase()))) : articles;
+
+  filtered.forEach((article, idx) => {
+    const realIdx = articles.indexOf(article);
+    const card = document.createElement('article');
+    card.className = 'blog-card glass-card rounded-2xl p-6 cursor-pointer';
+    card.onclick = () => viewArticle(realIdx);
+    card.innerHTML = `
+      <div class="text-3xl mb-4">${article.emoji}</div>
+      <div class="flex flex-wrap gap-2 mb-3">${article.tags.slice(0, 2).map(t => `<span class="text-xs px-2 py-1 rounded-full" style="background: rgba(99,102,241,0.1); color: #a5b4fc;">${t}</span>`).join('')}</div>
+      <h3 class="text-lg font-bold mb-2" style="color: #f1f5f9;">${article.title}</h3>
+      <p class="text-sm" style="color: #64748b;">${article.excerpt}</p>
+      <div class="mt-4 flex items-center gap-1 text-xs font-semibold" style="color: #6366f1;">
+        Read more <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+  lucide.createIcons();
+}
+
+function filterArticles(val) { renderBlogGrid(val); }
+
+function viewArticle(idx) {
+  navigateTo('article');
+  const article = articles[idx];
+  document.getElementById('articleContent').innerHTML = `
+    <div class="text-5xl mb-6">${article.emoji}</div>
+    <div class="flex flex-wrap gap-2 mb-4">${article.tags.map(t => `<span class="text-xs px-2 py-1 rounded-full" style="background: rgba(99,102,241,0.1); color: #a5b4fc;">${t}</span>`).join('')}</div>
+    <h1 class="text-3xl sm:text-4xl font-900 mb-6" style="color: #f1f5f9;">${article.title}</h1>
+    <div class="prose-custom text-sm leading-relaxed space-y-4" style="color: #94a3b8;">
+      ${article.content.replace(/<h3>/g, '<h3 class="text-xl font-bold mt-8 mb-3" style="color: #f1f5f9;">').replace(/<strong>/g, '<strong style="color: #e2e8f0;">')}
+    </div>
+    <div class="mt-10 glass-card rounded-2xl p-8 text-center">
+      <h3 class="text-xl font-bold mb-2" style="color: #f1f5f9;">Ready to Test Your IQ?</h3>
+      <p class="text-sm mb-4" style="color: #64748b;">Put your knowledge to the test with our free online IQ assessment.</p>
+      <button onclick="navigateTo('test')" class="btn-primary px-8 py-3 rounded-full text-white font-bold inline-flex items-center gap-2">
+        <i data-lucide="play" style="width:18px;height:18px;"></i> Take the Free Test
+      </button>
+    </div>
+  `;
+  lucide.createIcons();
+}
+
+// ========== CONTACT FORM ==========
+function handleContactSubmit(e) {
+  e.preventDefault();
+  document.getElementById('contactForm').querySelectorAll('input, textarea').forEach(el => el.value = '');
+  document.getElementById('contactSuccess').classList.remove('hidden');
+  setTimeout(() => document.getElementById('contactSuccess').classList.add('hidden'), 4000);
+}
+
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded', () => {
+  lucide.createIcons();
+});
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dbebdbf56d52704',t:'MTc3MzQ0MzczMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
